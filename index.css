@@ -81,13 +81,13 @@ h2{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    column-gap: 20px;
-    row-gap: 10px;
+    column-gap: 70px;
+    row-gap: 15px;
     padding: 0 20px;
 }
 
 .cards{
-    width: 230px;
+    width: 290px;
     height: 470px;
     background-position: 50% 50%;
     background-size: cover;
@@ -180,27 +180,107 @@ footer{
 
 .modal-content{
     width: 25vw;
-    height: 70vh;
+    min-width: 20vw;
+    min-height: 50vh;
     background-color: #0d0d0d;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     row-gap: 15px;
-    padding: 30px 10px;
+    padding: 30px 0;
     align-items: center;
 }
 
 .character-image {
     width: 200px;
     height: 200px;
+    min-height: 150px;
+    min-width: 150px;
     border-radius: 50%;
     background-position: 50% 10%;
     background-size: cover;
   }
   
-  .character-details {
+.character-details {
     font-family: 'Star Wars', sans-serif;
     font-size: 1rem;
     font-weight: lighter;
     color: gold;
+    text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+    .main-container {
+      padding: 20px;
+    }
+    
+    h2 {
+      font-size: 1rem;
+    }
+  
+    .modal-content {
+      /* width: 30vw;
+      text-align: center;
+      min-width: 50vw;
+      min-height: 70vh; */
+      min-width: 40vw;
+      min-height: 40vh;
+      text-align: center;
+      height: 50vh;
+      width: 41vw;
+    }
   }
+  
+  @media screen and (max-width: 834px) {
+    h2 {
+      text-align: center;
+    }
+  
+    .modal-content {
+        min-width: 50vw;
+        min-height: 40vh;
+        text-align: center;
+        height: 50vh;
+    }
+  }
+  
+  @media screen and (max-width: 414px) {
+    h2 {
+      font-size: 1.1rem;
+    }
+  
+    .logo {
+      width: 200px;
+    }
+    
+    .logo-img {
+      width: 35%;
+    }
+    
+    .logo-text {
+      font-size: 0.9rem;
+    }
+    
+    .social-media {
+      width: 90px;
+    }
+  
+    .modal-content {
+        min-width: 60vw;
+        min-height: 40vh;
+        height: 45vh;
+    }
+  
+    .footer-logo {
+      font-size: 1.1rem;
+    }
+
+    .character-image{
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-position: 50% 10%;
+        background-size: cover;
+    }
+}
+
