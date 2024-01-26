@@ -11,8 +11,10 @@ window.onload = async () => {
   const nextButton = document.getElementById('next-button');
   nextButton.addEventListener('click', loadNextPage);
 
+
   const backButton = document.getElementById('back-button');
   backButton.addEventListener('click', loadPreviousPage);
+
 };
 
 async function loadCharacters(url) {
