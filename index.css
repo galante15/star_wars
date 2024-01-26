@@ -267,8 +267,8 @@ footer{
   
     .modal-content {
         min-width: 60vw;
-        min-height: 40vh;
-        height: 45vh;
+        min-height: 5vh;
+        height: 56vh;
     }
   
     .footer-logo {
@@ -283,4 +283,6 @@ footer{
         background-size: cover;
     }
 }
+
+
 
