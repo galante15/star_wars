@@ -1,20 +1,32 @@
 let currentPageUrl = 'https://swapi.dev/api/people/';
 
 window.onload = async () => {
+
+   let elem_preloader = document.getElementById("preloader");
+   let elem_loader = document.getElementById("loader");
+   let loading = true;
+
+ function timeOut() {
+    elem_preloader.classList.remove("preloader");
+    elem_loader.classList.remove("loader");
+  };
+
   try {
     await loadCharacters(currentPageUrl);
+    loading = false;
+
   } catch (error) {
     console.log(error);
     alert('Erro ao carregar cards');
   }
 
+  loading ? false : timeOut();
+
   const nextButton = document.getElementById('next-button');
   nextButton.addEventListener('click', loadNextPage);
 
-
   const backButton = document.getElementById('back-button');
   backButton.addEventListener('click', loadPreviousPage);
-
 };
 
 async function loadCharacters(url) {
@@ -22,13 +34,24 @@ async function loadCharacters(url) {
   mainContent.innerHTML = ''; // Limpa os resultados anteriores
 
   try {
+
+    // setTimeout(function() {
+    //   elem_preloader.classList.remove("preloader");
+    //   elem_loader.classList.remove("loader");
+    // });
+
     const response = await fetch(url);
     const responseJson = await response.json();
 
+    // let elem_preloader = document.getElementById("preloader");
+    // let elem_loader = document.getElementById("loader");
+    // let loading = true;
+
     responseJson.results.forEach((character) => {
+
       const card = document.createElement("div");
       card.style.backgroundImage = `url('https://starwars-visualguide.com/assets/img/characters/${character.url.replace(/\D/g, "")}.jpg')`
-      card.className = "cards"
+      card.className = "cards";
 
       const characterNameBG = document.createElement("div")
       characterNameBG.className = "character-name-bg"
@@ -83,6 +106,10 @@ async function loadCharacters(url) {
       mainContent.appendChild(card);
 
     });
+
+    // loading = false;
+
+    // loading ? false : setTimeout();
 
     // Habilita ou desabilita os botões de acordo com a presença de URLs de próxima e página anterior
     const nextButton = document.getElementById('next-button');
