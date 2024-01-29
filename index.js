@@ -1,32 +1,59 @@
 let currentPageUrl = 'https://swapi.dev/api/people/';
 
+class LoadingClass {
+  constructor() {
+
+    this.preloader = document.querySelector('.preloader');
+    this.loader = document.querySelector('.loader');
+    this.loading = true;
+  }
+
+  timeOut() {
+
+    this.preloader.style.visibility = 'hidden';
+    this.loader.style.visibility = 'hidden';
+  };
+}
+
+const newLoading = new LoadingClass();
+
 window.onload = async () => {
 
-   let elem_preloader = document.getElementById("preloader");
-   let elem_loader = document.getElementById("loader");
-   let loading = true;
-
- function timeOut() {
-    elem_preloader.classList.remove("preloader");
-    elem_loader.classList.remove("loader");
-  };
-
+  let buttons = document.querySelector('.buttons');
+  let footer = document.querySelector('.footer-logo');
+  
   try {
+  
     await loadCharacters(currentPageUrl);
-    loading = false;
 
+    buttons.style.visibility = 'visible';
+    footer.style.visibility = 'visible';
+    
+    newLoading.loading = false;
+
+    if (!newLoading.loading) {
+      newLoading.timeOut();
+    }
+    
   } catch (error) {
     console.log(error);
     alert('Erro ao carregar cards');
   }
 
-  loading ? false : timeOut();
-
   const nextButton = document.getElementById('next-button');
-  nextButton.addEventListener('click', loadNextPage);
+
+  nextButton.addEventListener('click', function() {
+      loadNextPage();
+      scrollToTop(); 
+  });
 
   const backButton = document.getElementById('back-button');
-  backButton.addEventListener('click', loadPreviousPage);
+
+  backButton.addEventListener('click', function() {
+    loadPreviousPage();
+    scrollToTop();
+  });
+
 };
 
 async function loadCharacters(url) {
@@ -35,17 +62,8 @@ async function loadCharacters(url) {
 
   try {
 
-    // setTimeout(function() {
-    //   elem_preloader.classList.remove("preloader");
-    //   elem_loader.classList.remove("loader");
-    // });
-
     const response = await fetch(url);
     const responseJson = await response.json();
-
-    // let elem_preloader = document.getElementById("preloader");
-    // let elem_loader = document.getElementById("loader");
-    // let loading = true;
 
     responseJson.results.forEach((character) => {
 
@@ -107,10 +125,6 @@ async function loadCharacters(url) {
 
     });
 
-    // loading = false;
-
-    // loading ? false : setTimeout();
-
     // Habilita ou desabilita os botões de acordo com a presença de URLs de próxima e página anterior
     const nextButton = document.getElementById('next-button');
     const backButton = document.getElementById('back-button');
@@ -128,6 +142,86 @@ async function loadCharacters(url) {
 function hideModal() {
   const modal = document.getElementById("modal")
   modal.style.visibility = "hidden"
+}
+
+async function loadNextPage() {
+  if (!currentPageUrl) return;
+
+  try {
+
+    let buttons = document.querySelector('.buttons');
+    let backButton = document.getElementById('back-button');
+    let footer = document.querySelector('.footer-logo');
+
+    backButton.style.visibility = 'hidden';
+    buttons.style.visibility = 'hidden';
+    footer.style.visibility = 'hidden';
+
+    newLoading.preloader.style.visibility = 'visible';
+    newLoading.loader.style.visibility = 'visible';
+
+    const response = await fetch(currentPageUrl);
+    const responseJson = await response.json();
+
+    await loadCharacters(responseJson.next);
+
+    backButton.style.visibility = 'visible';
+    buttons.style.visibility = 'visible';
+    footer.style.visibility = 'visible';
+
+    newLoading.loading = false;
+
+    if (!newLoading.loading) {
+      newLoading.timeOut();
+    }
+
+  } catch (error) {
+    console.log(error);
+    alert('Erro ao carregar a próxima página');
+  }
+}
+
+async function loadPreviousPage() {
+  if (!currentPageUrl) return;
+
+  try {
+
+    let buttons = document.querySelector('.buttons');
+    let backButton = document.getElementById('back-button');
+    let footer = document.querySelector('.footer-logo');
+
+    backButton.style.visibility = 'hidden';
+    buttons.style.visibility = 'hidden';
+    footer.style.visibility = 'hidden';
+
+    newLoading.preloader.style.visibility = 'visible';
+    newLoading.loader.style.visibility = 'visible';
+
+    const response = await fetch(currentPageUrl);
+    const responseJson = await response.json();
+
+    await loadCharacters(responseJson.previous);
+
+    buttons.style.visibility = 'visible';
+    footer.style.visibility = 'visible';
+
+    newLoading.loading = false;
+
+    if (!newLoading.loading) {
+      newLoading.timeOut();
+    }
+
+  } catch (error) {
+    console.log(error);
+    alert('Erro ao carregar a página anterior');
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // Rola suavemente para o topo
+  });
 }
 
 function convertEyeColor(eyeColor) {
@@ -171,30 +265,3 @@ function convertBirthYear(birthYear) {
   return birthYear;
 }
 
-async function loadNextPage() {
-  if (!currentPageUrl) return;
-
-  try {
-    const response = await fetch(currentPageUrl);
-    const responseJson = await response.json();
-
-    await loadCharacters(responseJson.next);
-  } catch (error) {
-    console.log(error);
-    alert('Erro ao carregar a próxima página');
-  }
-}
-
-async function loadPreviousPage() {
-  if (!currentPageUrl) return;
-
-  try {
-    const response = await fetch(currentPageUrl);
-    const responseJson = await response.json();
-
-    await loadCharacters(responseJson.previous);
-  } catch (error) {
-    console.log(error);
-    alert('Erro ao carregar a página anterior');
-  }
-}

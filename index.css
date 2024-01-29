@@ -120,12 +120,14 @@ h2{
 }
 
 .buttons{
+    visibility: hidden;
     width: 80%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
 }
+
 
 button{
     width: 70px;
@@ -161,6 +163,7 @@ footer{
 }
 
 .footer-logo{
+    visibility: hidden;
     font-family: 'Star Wars', sans-serif;
     font-size: 1.5rem;
     font-weight: 500;
